@@ -29,7 +29,7 @@ fn main() {
         Some(Commands::Move { path, new_path }) => {
             move_command(&cfg.context, path.as_deref(), new_path.as_deref())
         }
-        Some(Commands::Delete { path }) => delete_command(&cfg.context, path.as_deref()),
+        Some(Commands::Delete { path, dir }) => delete_command(&cfg.context, path.as_deref(), dir),
         None => insert_command(&cfg.context),
     }
 }

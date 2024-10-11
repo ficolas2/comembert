@@ -21,5 +21,9 @@ pub enum Commands {
         new_path: Option<String>,
     },
     #[command(about = "Delete a command")]
-    Delete { path: Option<String> },
+    Delete { 
+        path: Option<String>, 
+        #[arg(short, long)]
+        dir: bool 
+    },
 }
