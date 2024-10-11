@@ -1,5 +1,7 @@
 use std::process::Command;
 
+use crate::shell::insert_text;
+
 use super::utils::get_command_path;
 
 pub fn insert_command(context: &str) {
@@ -10,9 +12,5 @@ pub fn insert_command(context: &str) {
         .expect("Failed to read command file");
     let command = command.trim_end();
 
-    Command::new("xdotool")
-        .arg("type")
-        .arg(command)
-        .spawn()
-        .expect("Failed to execute xdotool");
+    insert_text(command);
 }
