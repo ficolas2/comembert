@@ -10,11 +10,14 @@ pub struct Args {
 #[derive(Subcommand)]
 pub enum Commands {
     #[command(about = "Add a command")]
-    Add { command: String, path: String},
+    Add { command: String, path: String },
     #[command(about = "Save the last command")]
     Prev { path: Option<String> },
     #[command(about = "Edit a command")]
-    Edit { path: Option<String>},
+    Edit { path: Option<String> },
     #[command(about = "Move a command")]
-    Move {},
+    Move {
+        path: Option<String>,
+        new_path: Option<String>,
+    },
 }

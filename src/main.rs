@@ -1,6 +1,9 @@
 use args::{Args, Commands};
 use clap::Parser;
-use commands::{edit::edit_command, insert::insert_command, prev::save_prev_command, utils::save_command};
+use commands::{
+    edit::edit_command, insert::insert_command, mov::move_command, prev::save_prev_command,
+    utils::save_command,
+};
 
 pub mod args;
 pub mod config;
@@ -23,7 +26,9 @@ fn main() {
         Some(Commands::Prev { path }) => save_prev_command(path, &cfg.context),
         Some(Commands::Add { command, path }) => save_command(&command, &path, &cfg.context),
         Some(Commands::Edit { path }) => edit_command(&cfg.editor, &cfg.context, path.as_deref()),
-        Some(Commands::Move {}) => println!("Not implemented"),
+        Some(Commands::Move { path, new_path }) => {
+            move_command(&cfg.context, path.as_deref(), new_path.as_deref())
+        }
         None => insert_command(&cfg.context),
     }
 }
