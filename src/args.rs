@@ -14,7 +14,7 @@ pub enum Commands {
     #[command(about = "Save the last command")]
     Prev { path: Option<String> },
     #[command(about = "Edit a command")]
-    Edit { path: String},
+    Edit { path: Option<String>},
     #[command(about = "Move a command")]
     Move {},
 }

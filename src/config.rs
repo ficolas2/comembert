@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize, Default)]
 pub struct Config {
     pub context: String,
+    pub editor: String,
 }
 
 fn get_config_file_dir() -> std::path::PathBuf {
@@ -33,6 +34,7 @@ pub fn get_config() -> Config {
 
         let cfg = Config {
             context: context_dir.to_str().unwrap().to_string(),
+            editor: "vim".to_string(),
             ..Default::default()
         };
         save_config(&cfg);
