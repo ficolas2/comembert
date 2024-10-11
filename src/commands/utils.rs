@@ -30,12 +30,16 @@ fn get_files(path: &str) -> Vec<String> {
     files
 }
 
-pub fn get_command_path(context: &str) -> String {
+pub fn get_commands(context: &str) -> Vec<String> {
     let prefix = format!("{}/", context);
-    let command_list: Vec<String> = get_files(context)
+    get_files(context)
         .iter()
         .map(|p| p.strip_prefix(&prefix).unwrap().to_string())
-        .collect();
+        .collect()
+}
+
+pub fn get_command_path(context: &str) -> String {
+    let command_list = get_commands(context);
 
     let mut fzf = Fzf::default();
     fzf.run().expect("Failed to start fzf");

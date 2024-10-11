@@ -26,4 +26,5 @@ pub enum Commands {
         #[arg(short, long)]
         dir: bool 
     },
+    List {},
 }
