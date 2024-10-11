@@ -1,4 +1,4 @@
-use crate::commands::utils::get_command_path;
+use crate::{commands::utils::get_command_path, shell::{get_current_shell, Shell}};
 
 pub fn edit_command(editor: &str, context: &str, path: Option<&str>) {
     let path = if let Some(path) = path {
@@ -14,8 +14,17 @@ pub fn edit_command(editor: &str, context: &str, path: Option<&str>) {
         std::process::exit(1);
     }
 
-    std::process::Command::new(editor)
-        .arg(path)
-        .status()
+    let mut command = std::process::Command::new(editor);
+    command.arg(path);
+
+    if editor == "vim" || editor == "nvim" {
+        match get_current_shell() {
+            Shell::Zsh => command.arg("-c set syntax=zsh"),
+            Shell::Fish => command.arg("-c set syntax=fish"),
+            Shell::Bash => command.arg("-c set syntax=bash"),
+        };
+    }
+
+    command.status()
         .expect(&format!("failed to execute {}", editor));
 }
