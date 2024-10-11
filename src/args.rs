@@ -20,4 +20,6 @@ pub enum Commands {
         path: Option<String>,
         new_path: Option<String>,
     },
+    #[command(about = "Delete a command")]
+    Delete { path: Option<String> },
 }

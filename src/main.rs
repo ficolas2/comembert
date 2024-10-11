@@ -1,8 +1,7 @@
 use args::{Args, Commands};
 use clap::Parser;
 use commands::{
-    edit::edit_command, insert::insert_command, mov::move_command, prev::save_prev_command,
-    utils::save_command,
+    delete::delete_command, edit::edit_command, insert::insert_command, mov::move_command, prev::save_prev_command, utils::save_command
 };
 
 pub mod args;
@@ -11,6 +10,7 @@ pub mod constants;
 pub mod shell;
 
 pub mod commands {
+    pub mod delete;
     pub mod edit;
     pub mod insert;
     pub mod mov;
@@ -29,6 +29,7 @@ fn main() {
         Some(Commands::Move { path, new_path }) => {
             move_command(&cfg.context, path.as_deref(), new_path.as_deref())
         }
+        Some(Commands::Delete { path }) => delete_command(&cfg.context, path.as_deref()),
         None => insert_command(&cfg.context),
     }
 }
