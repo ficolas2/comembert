@@ -1,3 +1,5 @@
+use std::io::{self, Write};
+
 use fzf_wrapped::Fzf;
 
 pub const BLACK: &str = "\x1b[30m";
@@ -16,6 +18,8 @@ pub fn save_command(command: &str, path: &str, context: &str) {
 
 pub fn read_user_input(prompt: &str) -> String {
     println!("{}", prompt);
+    print!("    ");
+    io::stdout().flush().expect("Failed to flush");
     let mut input = String::new();
     std::io::stdin()
         .read_line(&mut input)
