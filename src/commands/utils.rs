@@ -1,6 +1,6 @@
 use std::io::{self, Write};
 
-use fzf_wrapped::Fzf;
+use fzf_wrapped::{Fzf, Layout};
 
 pub const BLACK: &str = "\x1b[30m";
 pub const RED: &str = "\x1b[31m";
@@ -54,7 +54,14 @@ pub fn get_commands(context: &str) -> Vec<String> {
 pub fn get_command_path(context: &str) -> String {
     let command_list = get_commands(context);
 
-    let mut fzf = Fzf::default();
+    let height = (command_list.len() + 3).min(25);
+    let height_arg = format!("--height={}", height);
+
+    let mut fzf = Fzf::builder()
+        .layout(Layout::Reverse)
+        .custom_args(vec![height_arg])
+        .build()
+        .expect("Failed to build fzf");
     fzf.run().expect("Failed to start fzf");
     fzf.add_items(command_list)
         .expect("Failed to add items to fzf");
@@ -88,10 +95,16 @@ fn print_line(line: &str, quote: Quote) -> Quote {
             _ => {
                 print!("{}{}", CYAN, line);
                 return Quote::None;
-            },
+            }
         };
-        print!("{}{}{}{}", CYAN, &line[..quote_index], YELLOW, &line[quote_index..quote_index+1]);
-        return print_line(&line[quote_index+1..], quote);
+        print!(
+            "{}{}{}{}",
+            CYAN,
+            &line[..quote_index],
+            YELLOW,
+            &line[quote_index..quote_index + 1]
+        );
+        return print_line(&line[quote_index + 1..], quote);
     } else {
         let quote_char = match quote {
             Quote::Single => '\'',
@@ -118,7 +131,7 @@ pub fn print_command(command: &str, indent: usize) {
     let total_lines = command.lines().count();
     for (i, line) in command.lines().enumerate() {
         let mut beginning = 0;
-        print!("{:indent$}", " ", indent=indent);
+        print!("{:indent$}", " ", indent = indent);
         if first_line {
             // Print the command in blue
             print!("{}", BLUE);
