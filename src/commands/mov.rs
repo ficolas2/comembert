@@ -6,6 +6,12 @@ pub fn move_command(context: &str, path: Option<&str>, new_path: Option<&str>) {
     let path = path.map(|s| s.to_string()).unwrap_or_else(|| {
         get_command_path(context)
     });
+
+    if path == "" {
+        println!("No command selected.");
+        return;
+    }
+
     println!("Moving command: {}", path);
     let path = format!("{}/{}", context, path);
 

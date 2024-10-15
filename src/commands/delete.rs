@@ -4,6 +4,10 @@ pub fn delete_command(context: &str, path: Option<&str>, dir: bool) {
     let path = path.map(|s| s.to_string()).unwrap_or_else(|| {
         get_command_path(context)
     });
+    if path == "" {
+        println!("No command selected.");
+        return;
+    }
 
     let path = format!("{}/{}", context, path);
 

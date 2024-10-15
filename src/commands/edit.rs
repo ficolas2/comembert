@@ -6,6 +6,11 @@ pub fn edit_command(editor: &str, context: &str, path: Option<&str>) {
     } else {
         &get_command_path(context)
     };
+    if path == "" {
+        println!("No command selected.");
+        return;
+    }
+
     println!("Editing command: {}", path);
     let path = format!("{}/{}", context, path);
 
