@@ -5,6 +5,9 @@ use clap::{Parser, Subcommand};
 pub struct Args {
     #[command(subcommand)]
     pub command: Option<Commands>,
+
+    #[arg(short = 'c', long = "command", requires = "no_subcommand")]
+    pub insert_command: Option<String>,
 }
 
 #[derive(Subcommand)]

@@ -32,6 +32,6 @@ fn main() {
         }
         Some(Commands::Delete { path, dir }) => delete_command(&cfg.context, path.as_deref(), dir),
         Some(Commands::List {}) => list_commands(&cfg.context),
-        None => insert_command(&cfg.context),
+        None => insert_command(&cfg.context, args.insert_command.as_deref()),
     }
 }
