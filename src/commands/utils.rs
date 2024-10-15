@@ -29,6 +29,7 @@ pub fn read_user_input(prompt: &str) -> String {
 
 fn get_files(path: &str) -> Vec<String> {
     let mut files: Vec<String> = vec![];
+    std::fs::create_dir_all(&path).expect("Failed to create commands directory");
     let paths = std::fs::read_dir(path).expect("Failed to read directory");
     for path in paths {
         let path = path.expect("Failed to get path").path();
