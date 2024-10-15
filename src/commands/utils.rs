@@ -13,6 +13,8 @@ pub const WHITE: &str = "\x1b[37m";
 
 pub fn save_command(command: &str, path: &str, context: &str) {
     let path = format!("{}/{}", context, path);
+    let path = std::path::Path::new(&path);
+    std::fs::create_dir_all(path.parent().unwrap()).expect("Failed to create command directory");
     std::fs::write(&path, command).expect("Failed to write command to file");
 }
 
