@@ -1,8 +1,12 @@
-use std::{env, io::Write, process::{Command, Stdio}};
+use std::{
+    env,
+    io::Write,
+    process::{Command, Stdio},
+};
 
 use sysinfo::{get_current_pid, System};
 
-use crate::constants::{OUTPUT_ENV_VAR, TMP_COMMAND_FILE, TMP_OUTPUT};
+use crate::constants::{CLIPBOARD_OUTPUT, OUTPUT_ENV_VAR, TMP_COMMAND_FILE, TMP_OUTPUT};
 
 pub mod bash;
 pub mod fish;
@@ -45,33 +49,47 @@ pub fn get_last_command() -> String {
 }
 
 fn insert_text_tmp(text: &str) {
-    let mut file = std::fs::File::create(TMP_COMMAND_FILE).expect(&format!("Failed to create {}", TMP_COMMAND_FILE));
-    file.write_all(text.as_bytes()).expect(&format!("Failed to write to {}", TMP_COMMAND_FILE));
+    let mut file = std::fs::File::create(TMP_COMMAND_FILE)
+        .expect(&format!("Failed to create {}", TMP_COMMAND_FILE));
+    file.write_all(text.as_bytes())
+        .expect(&format!("Failed to write to {}", TMP_COMMAND_FILE));
 }
 
 fn insert_text_clipboard(text: &str) {
-    let mut child = Command::new("xclip")
-        .arg("-selection")
-        .arg("clipboard")
-        .stdin(Stdio::piped())
-        .spawn()
-        .expect("Failed to start xclip");
+    if env::var("XAUTHORITY").is_ok() {
+        let mut child = Command::new("xclip")
+            .arg("-selection")
+            .arg("clipboard")
+            .stdin(Stdio::piped())
+            .spawn()
+            .expect("Failed to start xclip");
 
-    if let Some(stdin) = child.stdin.as_mut() {
-        stdin.write_all(text.as_bytes()).expect("Failed to write to xclip");
+        if let Some(stdin) = child.stdin.as_mut() {
+            stdin
+                .write_all(text.as_bytes())
+                .expect("Failed to write to xclip");
+        }
+
+        Command::new("xdotool")
+            .arg("key")
+            .arg("ctrl+shift+v")
+            .spawn()
+            .expect("Failed to execute xdotool");
+    } else {
+        panic!("Not using X11, run from the fish or zsh script.")
     }
-
-    Command::new("xdotool")
-        .arg("key")
-        .arg("ctrl+shift+v")
-        .spawn()
-        .expect("Failed to execute xdotool");
 }
 
 pub fn insert_text(text: &str) {
     let output = env::var(OUTPUT_ENV_VAR);
     match output {
         Ok(ref value) if value == TMP_OUTPUT => insert_text_tmp(text),
-        _ => { insert_text_clipboard(text) },
+        Ok(ref value) if value == CLIPBOARD_OUTPUT => insert_text_clipboard(text),
+        _ => {
+            println!("Running without $OUTPUT_ENV_VAR set, using clipboard. Set use one of the \
+                        scripts (cm.zsh or cm.fish), or set $OUTPUT_ENV_VAR to remove this message.");
+
+            insert_text_clipboard(text)
+        }
     }
 }
