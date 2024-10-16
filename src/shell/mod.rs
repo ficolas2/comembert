@@ -1,4 +1,4 @@
-use std::process::Command;
+use std::{io::Write, process::{Command, Stdio}};
 
 use sysinfo::{get_current_pid, System};
 
@@ -43,9 +43,27 @@ pub fn get_last_command() -> String {
 }
 
 pub fn insert_text(text: &str) {
+    // let clipboardContent = Command::new("xclip")
+    //     .arg("-o")
+    //     .arg("-selection")
+    //     .arg("clipboard")
+    //     .output()
+    //     .expect("Failed to get clipboard content");
+
+    let mut child = Command::new("xclip")
+        .arg("-selection")
+        .arg("clipboard")
+        .stdin(Stdio::piped())
+        .spawn()
+        .expect("Failed to start xclip");
+
+    if let Some(stdin) = child.stdin.as_mut() {
+        stdin.write_all(text.as_bytes()).expect("Failed to write to xclip");
+    }
+
     Command::new("xdotool")
-        .arg("type")
-        .arg(text)
+        .arg("key")
+        .arg("ctrl+shift+v")
         .spawn()
         .expect("Failed to execute xdotool");
 }
