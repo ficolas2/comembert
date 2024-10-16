@@ -1,6 +1,8 @@
-use std::{io::Write, process::{Command, Stdio}};
+use std::{env, io::Write, process::{Command, Stdio}};
 
 use sysinfo::{get_current_pid, System};
+
+use crate::constants::{OUTPUT_ENV_VAR, TMP_COMMAND_FILE, TMP_OUTPUT};
 
 pub mod bash;
 pub mod fish;
@@ -42,14 +44,12 @@ pub fn get_last_command() -> String {
     }
 }
 
-pub fn insert_text(text: &str) {
-    // let clipboardContent = Command::new("xclip")
-    //     .arg("-o")
-    //     .arg("-selection")
-    //     .arg("clipboard")
-    //     .output()
-    //     .expect("Failed to get clipboard content");
+fn insert_text_tmp(text: &str) {
+    let mut file = std::fs::File::create(TMP_COMMAND_FILE).expect(&format!("Failed to create {}", TMP_COMMAND_FILE));
+    file.write_all(text.as_bytes()).expect(&format!("Failed to write to {}", TMP_COMMAND_FILE));
+}
 
+fn insert_text_clipboard(text: &str) {
     let mut child = Command::new("xclip")
         .arg("-selection")
         .arg("clipboard")
@@ -66,4 +66,12 @@ pub fn insert_text(text: &str) {
         .arg("ctrl+shift+v")
         .spawn()
         .expect("Failed to execute xdotool");
+}
+
+pub fn insert_text(text: &str) {
+    let output = env::var(OUTPUT_ENV_VAR);
+    match output {
+        Ok(ref value) if value == TMP_OUTPUT => insert_text_tmp(text),
+        _ => { insert_text_clipboard(text) },
+    }
 }
