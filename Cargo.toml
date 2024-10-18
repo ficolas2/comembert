@@ -3,6 +3,15 @@ name = "comembert"
 version = "0.1.0"
 edition = "2021"
 
+authors = ["Nicolas de Pineda Gutierrez <nicolasdepg@gmail.com>"]
+license = "MIT"
+description = "A tool to remember commands, search them, and write them to the command line to use"
+readme = "README.md"
+homepage = "https://github.com/ficolas2/comembert"
+repository = "https://github.com/ficolas2/comembert"
+keywords = ["cli", "commands", "remember", "command-line", "utilities"]
+categories = ["command-line-utilities"]
+
 [dependencies]
 crossterm = "0.26"
 dirs = "5.0"
