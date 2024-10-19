@@ -12,6 +12,7 @@ cm() {
         fi
         rm /tmp/comembert
     fi
+    export COMEMBERT_OUTPUT=
 }
 
 bind -x '"\C-f": cm'

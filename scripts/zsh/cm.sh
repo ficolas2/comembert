@@ -9,6 +9,7 @@ cm () {
         zle redisplay
         rm /tmp/comembert
     fi
+    export COMEMBERT_OUTPUT=
 }
 
 zle -N cm

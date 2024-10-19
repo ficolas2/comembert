@@ -8,4 +8,5 @@ function cm
         rm /tmp/comembert
     end
 
+    export COMEMBERT_OUTPUT=
 end
