@@ -12,11 +12,37 @@
                       ""-'      Com(mand re)member t(ool)
 ```
 
-## Installation
-### Requirements
+---
+
+![preview](media/preview.gif)
+
+## Requirements
 - fzf: 
 https://github.com/junegunn/fzf
 - Either bash, zsh or fish shell.
+
+## Installation
+### Bash
+```bash
+cargo install comembert
+mkdir ~/.config/comembert
+wget https://raw.githubusercontent.com/ficolas2/comembert/refs/heads/main/scripts/bash/cm -O ~/.config/comembert/cm.sh
+echo 'source ~/.config/comembert/cm.sh' >> ~/.bashrc
+```
+
+### Zsh
+```bash
+cargo install comembert
+mkdir ~/.config/comembert
+wget https://raw.githubusercontent.com/ficolas2/comembert/refs/heads/main/scripts/zsh/cm -O ~/.config/comembert/cm.zsh
+echo 'source ~/.config/comembert/cm.zsh' >> ~/.zshrc
+```
+
+### Fish shell
+```bash
+cargo install comembert
+wget https://raw.githubusercontent.com/ficolas2/comembert/refs/heads/main/scripts/fish/cm.fish -O ~/.config/fish/functions/cm.fish
+```
 
 ## Usage
 - [Read a command to the terminal prompt](#read-a-command-to-the-terminal-prompt)
@@ -31,6 +57,7 @@ https://github.com/junegunn/fzf
 ```bash
 cm
 ```
+**NOTE**: THIS ONLY WORKS ON FISH SHELL. If you are using bash or zsh, you need to press the keybinding Ctrl+F
 fzf will show you a list of the saved commands, select one, and it will be printed to the terminal input.
 
 ### Save a command
@@ -53,17 +80,17 @@ If no command route is specified, fzf will be opened to select a command.
 
 Note: the editor is defined by the $EDITOR environment variable.
 
-### Delete a command
-```bash
-cm --del 'comand/route'
-```
-If no command route is specified, fzf will be opened to select a command.
-
 ### Move a command
 ```bash
-cm --mov 'command/route' 'new/command/route'
+cm --move 'command/route' 'new/command/route'
 ```
 If no command route is specified, fzf will be opened once to select the command to move, and then you will be prompted to enter the new route.
+
+### Delete a command
+```bash
+cm --delete 'comand/route'
+```
+If no command route is specified, fzf will be opened to select a command.
 
 ### List all commands
 ```bash
@@ -72,8 +99,6 @@ cm --list
 
 ## Planned features
 - [ ] Read an openapi file, and save the commands as curl requests.
-- [ ] Bash support
-- [ ] Zsh support
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
