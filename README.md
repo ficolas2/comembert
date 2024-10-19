@@ -12,9 +12,6 @@
                       ""-'      Co(mmand re)member t(ool)
 ```
 
----
-
-
 ## Overview
 Comembert (Command remember tool) is a cli command manager, that allows you to save commands, 
 and output them directly onto your command line, so that you can modify them before running them.
@@ -54,7 +51,7 @@ wget https://raw.githubusercontent.com/ficolas2/comembert/refs/heads/main/script
 ```
 
 ## Usage
-- [Read a command to the terminal prompt](#read-a-command-to-the-terminal-prompt)
+- [Read a command to the terminal prompt](#insert-a-command-to-the-terminal-prompt)
 - [Save a command](#save-a-command)
 - [Save the last command](#save-the-last-command)
 - [Edit a command](#edit-a-command)
@@ -75,17 +72,17 @@ fzf will show you a list of the saved commands, select one, and it will be print
 
 ### Save a command
 ```bash
-cm --add 'command' 'command/route'
+cm add 'command' 'command/route'
 ```
 
 ### Save the last command
 ```bash
-cm --prev 'command/route'
+cm prev 'command/route'
 ```
 
 ### Edit a command
 ```bash
-cm --edit 'command/route'
+cm edit 'command/route'
 ```
 Your default editor will be oppened with the selected command.
 
@@ -95,19 +92,19 @@ Note: the editor is defined by the $EDITOR environment variable.
 
 ### Move a command
 ```bash
-cm --move 'command/route' 'new/command/route'
+cm move 'command/route' 'new/command/route'
 ```
 If no command route is specified, fzf will be opened once to select the command to move, and then you will be prompted to enter the new route.
 
 ### Delete a command
 ```bash
-cm --delete 'comand/route'
+cm delete 'comand/route'
 ```
 If no command route is specified, fzf will be opened to select a command.
 
 ### List all commands
 ```bash
-cm --list
+cm list
 ```
 
 ## Insertion options
