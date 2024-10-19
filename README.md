@@ -38,7 +38,7 @@ wget https://raw.githubusercontent.com/ficolas2/comembert/refs/heads/main/script
 echo 'source ~/.config/comembert/cm.zsh' >> ~/.zshrc
 ```
 
-### Fish shell
+### Fish
 ```bash
 cargo install comembert
 wget https://raw.githubusercontent.com/ficolas2/comembert/refs/heads/main/scripts/fish/cm.fish -O ~/.config/fish/functions/cm.fish
@@ -53,11 +53,15 @@ wget https://raw.githubusercontent.com/ficolas2/comembert/refs/heads/main/script
 - [Move a command](#move-a-command)
 - [List all commands](#list-all-commands)
 
-### Read a command to the terminal prompt
+### Insert a command to the terminal prompt
 ```bash
 cm
 ```
-**NOTE**: THIS ONLY WORKS ON FISH SHELL. If you are using bash or zsh, you need to press the keybinding Ctrl+F
+**NOTE**: INSERTING WITH THE COMMAND ONLY WORKS ON FISH SHELL, or with clipboard output mode, 
+see [Insertion options](#insertion-options). If you are using bash or zsh, you need to press the 
+keybinding Ctrl+F for command insertions.
+
+
 fzf will show you a list of the saved commands, select one, and it will be printed to the terminal input.
 
 ### Save a command
@@ -96,6 +100,32 @@ If no command route is specified, fzf will be opened to select a command.
 ```bash
 cm --list
 ```
+
+## Insertion options
+### Using the system clipboard, and simulating input
+If you want to insert the command to the terminal prompt using the system clipboard, you can set the
+environment variable 'COMEMBERT_OUTPUT' to 'clipboard'. This will copy the command to the clipboard,
+and simulate the input to the terminal.
+
+Currently, you need to have xdotool to simulate the input, and xclip to copy the command to the 
+clipboard. This means that this option is only available on linux, with X11, but this should change 
+in the future.
+
+### Bash or Zsh
+Bash and zsh don't allow inserting the command directly to the terminal prompt when running another 
+command.
+
+To insert the command to the terminal prompt, it has to be called from a keybinding. The default 
+keybinding is Ctrl+F, but you can change it modifying the file `~/.config/comembert/cm.sh` or 
+`~/.config/comembert/cm.zsh`.
+
+### Fish
+Fish shell allows inserting the command directly to the terminal prompt when running another command. 
+This means that you can simply call `cm` and, pick the command, and it will be inserted to the terminal.
+
+If you want to add a keybinding in fish shell, you can add add the binding to the file 
+`~/.config/fish/functions/fish_user_key_bindings.fish`:
+More info at https://fishshell.com/docs/current/cmds/bind.html
 
 ## Planned features
 - [ ] Read an openapi file, and save the commands as curl requests.
