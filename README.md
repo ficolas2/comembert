@@ -28,6 +28,8 @@ https://github.com/junegunn/fzf
 
 ## Installation
 ### Bash
+**Note**: for bash, the command cm won't work to insert the command to the terminal prompt, you need to
+use the keybinding Ctrl+F. See [Insertion options](#insertion-options).
 ```bash
 cargo install comembert
 mkdir ~/.config/comembert
@@ -36,6 +38,8 @@ echo 'source ~/.config/comembert/cm.sh' >> ~/.bashrc
 ```
 
 ### Zsh
+**Note**: for zsh, the command cm won't work to insert the command to the terminal prompt, you need to
+use the keybinding Ctrl+F. See [Insertion options](#insertion-options).
 ```bash
 cargo install comembert
 mkdir ~/.config/comembert
