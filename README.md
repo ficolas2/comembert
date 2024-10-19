@@ -9,10 +9,15 @@
      '--..             -.        | |__| (_) | | | | | |  __/ | | | | | |_) |  __/ |  | |_ 
           ""--..         :        \____\___/|_| |_| |_|\___|_| |_| |_|_.__/ \___|_|   \__|
                 ""--..   |
-                      ""-'      Com(mand re)member t(ool)
+                      ""-'      Co(mmand re)member t(ool)
 ```
 
 ---
+
+
+## Overview
+Comembert (Command remember tool) is a cli command manager, that allows you to save commands, 
+and output them directly onto your command line, so that you can modify them before running them.
 
 ![preview](media/preview.gif)
 
