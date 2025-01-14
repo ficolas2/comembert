@@ -1,3 +1,4 @@
+autoload -Uz add-zsh-hook
 cm () {
     export COMEMBERT_OUTPUT=tmp
 
@@ -12,5 +13,10 @@ cm () {
     export COMEMBERT_OUTPUT=
 }
 
-zle -N cm
-bindkey '\C-f' cm
+add-zsh-hook precmd _initialize_comembert
+_initialize_comembert() {
+    zle -N cm
+    bindkey '\C-f' cm
+    add-zsh-hook -d precmd _initialize_comembert
+}
+
