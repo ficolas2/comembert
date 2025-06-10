@@ -43,7 +43,7 @@ pub fn get_last_command() -> String {
     match shell {
         // Shell::Bash => bash::get_last_command(),
         Shell::Fish => fish::get_last_command(),
-        // Shell::Zsh => zsh::get_last_command(),
+        Shell::Zsh => zsh::get_last_command(),
         _ => panic!("Currently unsuported shell"),
     }
 }
