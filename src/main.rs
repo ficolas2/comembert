@@ -24,7 +24,7 @@ fn main() {
     let args = Args::parse();
 
     match args.command {
-        Some(Commands::Prev { path }) => save_prev_command(path, &cfg.context),
+        Some(Commands::Previous { path }) => save_prev_command(path, &cfg.context),
         Some(Commands::Add { command, path }) => save_command(&command, &path, &cfg.context),
         Some(Commands::Edit { path }) => edit_command(&cfg.editor, &cfg.context, path.as_deref()),
         Some(Commands::Move { path, new_path }) => {
