@@ -6,7 +6,7 @@ pub fn edit_command(editor: &str, context: &str, path: Option<&str>) {
     } else {
         &get_command_path(context)
     };
-    if path == "" {
+    if path.is_empty() {
         println!("No command selected.");
         return;
     }
@@ -24,12 +24,12 @@ pub fn edit_command(editor: &str, context: &str, path: Option<&str>) {
 
     if editor == "vim" || editor == "nvim" {
         match get_current_shell() {
-            Shell::Zsh => command.arg("-c set syntax=zsh"),
-            Shell::Fish => command.arg("-c set syntax=fish"),
-            Shell::Bash => command.arg("-c set syntax=bash"),
+            Shell::Zsh => command.args(["-c", "set syntax=zsh"]),
+            Shell::Fish => command.args(["-c", "set syntax=fish"]),
+            Shell::Bash => command.args(["-c", "set syntax=bash"]),
         };
     }
 
     command.status()
-        .expect(&format!("failed to execute {}", editor));
+        .unwrap_or_else(|_| panic!("failed to execute {}", editor));
 }

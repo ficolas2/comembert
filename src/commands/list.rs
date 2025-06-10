@@ -6,7 +6,7 @@ pub fn print_commands(commands: &Vec<String>, indent: usize) {
     let mut parent_map: HashMap<String, Vec<String>> = HashMap::new();
     for command in commands {
         if let Some((parent, child)) = command.split_once("/") {
-            parent_map.entry(parent.to_string()).or_insert(vec![]).push(child.to_string());
+            parent_map.entry(parent.to_string()).or_default().push(child.to_string());
         } else {
             println!("{:indent$}{}", "", command, indent = indent);
         }

@@ -35,7 +35,6 @@ pub fn get_config() -> Config {
         let cfg = Config {
             context: context_dir.to_str().unwrap().to_string(),
             editor: "vim".to_string(),
-            ..Default::default()
         };
         save_config(&cfg);
         cfg

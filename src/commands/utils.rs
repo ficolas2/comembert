@@ -15,7 +15,7 @@ pub fn save_command(command: &str, path: &str, context: &str) {
     let path = format!("{}/{}", context, path);
     let path = std::path::Path::new(&path);
     std::fs::create_dir_all(path.parent().unwrap()).expect("Failed to create command directory");
-    std::fs::write(&path, command).expect("Failed to write command to file");
+    std::fs::write(path, command).expect("Failed to write command to file");
 }
 
 pub fn read_user_input(prompt: &str) -> String {
@@ -31,7 +31,7 @@ pub fn read_user_input(prompt: &str) -> String {
 
 fn get_files(path: &str) -> Vec<String> {
     let mut files: Vec<String> = vec![];
-    std::fs::create_dir_all(&path).expect("Failed to create commands directory");
+    std::fs::create_dir_all(path).expect("Failed to create commands directory");
     let paths = std::fs::read_dir(path).expect("Failed to read directory");
     for path in paths {
         let path = path.expect("Failed to get path").path();
@@ -68,9 +68,8 @@ pub fn get_command_path(context: &str) -> String {
     fzf.run().expect("Failed to start fzf");
     fzf.add_items(command_list)
         .expect("Failed to add items to fzf");
-    let users_selection = fzf.output().expect("Failed to get the user's output");
-
-    users_selection
+    
+    fzf.output().expect("Failed to get the user's output")
 }
 
 #[derive(PartialEq, Debug)]
@@ -107,7 +106,7 @@ fn print_line(line: &str, quote: Quote) -> Quote {
             YELLOW,
             &line[quote_index..quote_index + 1]
         );
-        return print_line(&line[quote_index + 1..], quote);
+        print_line(&line[quote_index + 1..], quote)
     } else {
         let quote_char = match quote {
             Quote::Single => '\'',
@@ -118,10 +117,10 @@ fn print_line(line: &str, quote: Quote) -> Quote {
         let quote_index = line.find(quote_char);
         if let Some(quote_index) = quote_index {
             print!("{}{}", YELLOW, &line[..quote_index]);
-            return print_line(&line[quote_index..], Quote::None);
+            print_line(&line[quote_index..], Quote::None)
         } else {
             print!("{}{}", YELLOW, line);
-            return quote;
+            quote
         }
     }
 }
@@ -145,7 +144,7 @@ pub fn print_command(command: &str, indent: usize) {
         }
         quote = print_line(&line[beginning..], quote);
         if i != total_lines - 1 {
-            println!("");
+            println!();
         }
     }
 

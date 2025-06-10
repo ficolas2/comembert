@@ -50,9 +50,9 @@ pub fn get_last_command() -> String {
 
 fn insert_text_tmp(text: &str) {
     let mut file = std::fs::File::create(TMP_COMMAND_FILE)
-        .expect(&format!("Failed to create {}", TMP_COMMAND_FILE));
+        .unwrap_or_else(|_| panic!("Failed to create {}", TMP_COMMAND_FILE));
     file.write_all(text.as_bytes())
-        .expect(&format!("Failed to write to {}", TMP_COMMAND_FILE));
+        .unwrap_or_else(|_| panic!("Failed to write to {}", TMP_COMMAND_FILE));
 }
 
 fn insert_text_clipboard(text: &str) {
@@ -63,6 +63,7 @@ fn insert_text_clipboard(text: &str) {
             .stdin(Stdio::piped())
             .spawn()
             .expect("Failed to start xclip");
+        child.wait().expect("Failed to wait for xclip process");
 
         if let Some(stdin) = child.stdin.as_mut() {
             stdin
@@ -70,11 +71,13 @@ fn insert_text_clipboard(text: &str) {
                 .expect("Failed to write to xclip");
         }
 
-        Command::new("xdotool")
+        let mut child = Command::new("xdotool")
             .arg("key")
             .arg("ctrl+shift+v")
             .spawn()
             .expect("Failed to execute xdotool");
+
+        child.wait().expect("Failed to wait for xdotool process");
     } else {
         panic!("Not using X11, run from the fish or zsh script.")
     }

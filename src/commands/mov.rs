@@ -7,7 +7,7 @@ pub fn move_command(context: &str, path: Option<&str>, new_path: Option<&str>) {
         get_command_path(context)
     });
 
-    if path == "" {
+    if path.is_empty() {
         println!("No command selected.");
         return;
     }
