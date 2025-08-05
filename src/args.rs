@@ -1,13 +1,21 @@
 use clap::{Parser, Subcommand};
 
 #[derive(Parser)]
-#[command(version, about, long_about = None)]
+#[command(
+    version, 
+    about, 
+    long_about = None,
+    args_conflicts_with_subcommands = true
+)]
 pub struct Args {
     #[command(subcommand)]
     pub command: Option<Commands>,
 
-    #[arg(short = 'c', long = "command", requires = "no_subcommand", 
-           help = "Inserts the specified command into the shell")]
+    #[arg(
+        short = 'c',
+        long = "command",
+        help = "Inserts the specified command into the shell"
+    )]
     pub insert_command: Option<String>,
 }
 
@@ -25,10 +33,10 @@ pub enum Commands {
         new_path: Option<String>,
     },
     #[command(about = "Delete a command", visible_aliases = &["d", "del"])]
-    Delete { 
-        path: Option<String>, 
+    Delete {
+        path: Option<String>,
         #[arg(short, long)]
-        dir: bool 
+        dir: bool,
     },
     #[command(about = "List all stored commands", visible_aliases = &["l", "ls"])]
     List {},
