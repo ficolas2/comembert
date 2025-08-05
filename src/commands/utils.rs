@@ -56,8 +56,11 @@ pub fn get_commands(context: &str) -> Vec<String> {
 
 pub fn get_command_path(context: &str) -> String {
     let command_list = get_commands(context);
+    fzf_select(command_list)
+}
 
-    let height = (command_list.len() + 3).min(25);
+pub fn fzf_select(list: Vec<String>) -> String {
+    let height = (list.len() + 3).min(25);
     let height_arg = format!("--height={}", height);
 
     let mut fzf = Fzf::builder()
@@ -66,9 +69,9 @@ pub fn get_command_path(context: &str) -> String {
         .build()
         .expect("Failed to build fzf");
     fzf.run().expect("Failed to start fzf");
-    fzf.add_items(command_list)
+    fzf.add_items(list)
         .expect("Failed to add items to fzf");
-    
+
     fzf.output().expect("Failed to get the user's output")
 }
 

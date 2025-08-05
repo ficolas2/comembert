@@ -10,6 +10,9 @@ pub mod constants;
 pub mod shell;
 
 pub mod commands {
+    pub mod metadata {
+        pub mod metadata;
+    }
     pub mod delete;
     pub mod edit;
     pub mod insert;
