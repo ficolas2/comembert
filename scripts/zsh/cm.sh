@@ -7,6 +7,7 @@ cm () {
     if [[ -e "/tmp/comembert" ]]; then
         BUFFER=$(cat /tmp/comembert)
 
+        zle end-of-line
         zle redisplay
         rm /tmp/comembert
     fi
