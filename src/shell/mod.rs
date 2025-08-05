@@ -92,6 +92,7 @@ pub fn insert_text(text: &str) {
             println!("Running without using any of the scripts. Cannot insert.\n\
                     If using bash or zsh, to add a command to the command line, you need to run it using a keybinding (by default, Ctrl+F)\n\
                     More info about this in the '#Insertion options' section of the README.md.\n");
+            println!("This is your command:\n{}", text)
             // insert_text_clipboard(text)
         }
     }
